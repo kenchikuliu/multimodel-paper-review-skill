@@ -1,0 +1,4 @@
+interface:
+  display_name: "Multimodel Paper Review"
+  short_description: "Review papers with Codex, Claude, and Gemini"
+  default_prompt: "Use $multimodel-paper-review to review a paper PDF in ACM MM format."
