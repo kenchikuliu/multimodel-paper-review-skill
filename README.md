@@ -2,7 +2,7 @@
 
 Codex skill for academic paper reviewing with Codex synthesis plus independent Claude Code and Gemini notes.
 
-The skill extracts a PDF or text paper, asks Claude Code and Gemini for separate reviewer critiques, and writes artifacts that Codex can synthesize into an ACM Multimedia-style review.
+The skill extracts a PDF or text paper, asks Claude Code and Gemini for separate reviewer critiques, optionally runs a supervisor/adversarial stress-test pass, and writes artifacts that Codex can synthesize into an ACM Multimedia-style review.
 
 ## Install
 
@@ -30,8 +30,18 @@ Or run the bundled helper directly:
 python "$env:USERPROFILE\.codex\skills\multimodel-paper-review\scripts\multimodel_paper_review.py" `
   --paper "C:\path\paper.pdf" `
   --out-dir "$env:TEMP\paper_review" `
-  --venue acmmm
+  --venue acmmm `
+  --profile supervisor `
+  --stress-test
 ```
+
+Useful options:
+
+- `--profile peer-review`: default conference review.
+- `--profile supervisor`: pre-submission audit of claims, evidence, narrative, figures, and writing.
+- `--profile adversarial`: harsher overclaim and score-calibration pass.
+- `--stress-test`: asks Claude/Gemini to audit reviewer notes for unsupported criticisms, missed severe issues, disagreements, and score consistency.
+- `--resume`: reuse existing artifacts in the output directory after an interruption.
 
 ## Local Provider Configuration
 
@@ -39,3 +49,7 @@ python "$env:USERPROFILE\.codex\skills\multimodel-paper-review\scripts\multimode
 - Gemini: uses `GEMINI_API_KEY`, `GOOGLE_API_KEY`, or `~/.gemini/settings.json`.
 
 No API keys or local settings are included in this repository.
+
+## Integration Notes
+
+This project keeps the pipeline lightweight while borrowing practical patterns from ARIS / Auto-claude-code-research-in-sleep and Supervisor-Skills: artifact-first review logs, resumable state, and optional supervisor/adversarial pressure. It does not vendor their code or copy their long checklists.
